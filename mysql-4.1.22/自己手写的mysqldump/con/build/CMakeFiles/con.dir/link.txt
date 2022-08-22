@@ -1,0 +1,1 @@
+/usr/bin/c++     CMakeFiles/con.dir/main.cpp.o  -o con  -lmysqlclient 

@@ -1,0 +1,3 @@
+/home/siuze/下载/mysql-4.1.22/自己手写的mysqldump/con/build/CMakeFiles/rebuild_cache.dir
+/home/siuze/下载/mysql-4.1.22/自己手写的mysqldump/con/build/CMakeFiles/edit_cache.dir
+/home/siuze/下载/mysql-4.1.22/自己手写的mysqldump/con/build/CMakeFiles/con.dir

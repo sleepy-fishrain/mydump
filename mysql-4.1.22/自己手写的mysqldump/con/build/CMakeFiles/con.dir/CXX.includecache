@@ -1,0 +1,18 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/siuze/下载/mysql-4.1.22/自己手写的mysqldump/con/main.cpp
+iostream
+-
+mysql/mysql.h
+-
+fstream
+-
+string.h
+-
+

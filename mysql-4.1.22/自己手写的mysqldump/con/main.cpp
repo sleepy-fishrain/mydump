@@ -7,9 +7,9 @@ using namespace std;
 MYSQL *sql = nullptr;
 
 const char* host = "139.9.190.145"; //主机名
-const char* user = "dumpDB"; //用户名
-const char* password = "HNUdb"; //密码
-const char* dbName = "dumpDB"; //数据库名称
+const char* user = "root"; //用户名
+const char* password = "123456"; //密码
+const char* dbName = "test"; //数据库名称
 int port = 3326; //端口号
 
 bool connect_to_db(const char* host, const char* user, const char* password, const char* dbName, int port);

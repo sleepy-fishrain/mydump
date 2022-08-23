@@ -1,0 +1,387 @@
+-- MySQL dump (TEST_VERSION) 0.0.1
+--
+-- Host: 139.9.190.145	Database: test
+-- ------------------------------------------------------
+-- Database version : 4.1.25-log 
+--
+-- Current Database: mysql
+--
+
+CREATE DATABASE `mysql` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE mysql;
+
+--
+-- Table structure for table columns_priv
+--
+
+DROP TABLE IF EXISTS columns_priv;
+CREATE TABLE `columns_priv` (
+  `Host` char(60) collate utf8_bin NOT NULL default '',
+  `Db` char(64) collate utf8_bin NOT NULL default '',
+  `User` char(16) collate utf8_bin NOT NULL default '',
+  `Table_name` char(64) collate utf8_bin NOT NULL default '',
+  `Column_name` char(64) collate utf8_bin NOT NULL default '',
+  `Timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `Column_priv` set('Select','Insert','Update','References') character set utf8 NOT NULL default '',
+  PRIMARY KEY  (`Host`,`Db`,`User`,`Table_name`,`Column_name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Column privileges';
+
+--
+-- Dumping data for table columns_priv
+--
+LOCK TABLES columns_priv WRITE;
+UNLOCK TABLES;
+
+--
+-- Table structure for table db
+--
+
+DROP TABLE IF EXISTS db;
+CREATE TABLE `db` (
+  `Host` char(60) collate utf8_bin NOT NULL default '',
+  `Db` char(64) collate utf8_bin NOT NULL default '',
+  `User` char(16) collate utf8_bin NOT NULL default '',
+  `Select_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Insert_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Update_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Delete_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Create_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Drop_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Grant_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `References_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Index_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Alter_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Create_tmp_table_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Lock_tables_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  PRIMARY KEY  (`Host`,`Db`,`User`),
+  KEY `User` (`User`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Database privileges';
+
+--
+-- Dumping data for table db
+--
+LOCK TABLES db WRITE;
+INSERT INTO db (Host, Db, User, Select_priv, Insert_priv, Update_priv, Delete_priv, Create_priv, Drop_priv, Grant_priv, References_priv, Index_priv, Alter_priv, Create_tmp_table_priv, Lock_tables_priv) VALUES ('%', 'test', , 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'N', 'Y', 'Y', 'Y', 'Y', 'Y'),
+			('%', 'test\\_%', , 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'N', 'Y', 'Y', 'Y', 'Y', 'Y');
+UNLOCK TABLES;
+
+--
+-- Table structure for table func
+--
+
+DROP TABLE IF EXISTS func;
+CREATE TABLE `func` (
+  `name` char(64) collate utf8_bin NOT NULL default '',
+  `ret` tinyint(1) NOT NULL default '0',
+  `dl` char(128) collate utf8_bin NOT NULL default '',
+  `type` enum('function','aggregate') character set utf8 NOT NULL default 'function',
+  PRIMARY KEY  (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='User defined functions';
+
+--
+-- Dumping data for table func
+--
+LOCK TABLES func WRITE;
+UNLOCK TABLES;
+
+--
+-- Table structure for table help_category
+--
+
+DROP TABLE IF EXISTS help_category;
+CREATE TABLE `help_category` (
+  `help_category_id` smallint(5) unsigned NOT NULL default '0',
+  `name` varchar(64) NOT NULL default '',
+  `parent_category_id` smallint(5) unsigned default NULL,
+  `url` varchar(128) NOT NULL default '',
+  PRIMARY KEY  (`help_category_id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='help categories';
+
+--
+-- Dumping data for table help_category
+--
+LOCK TABLES help_category WRITE;
+UNLOCK TABLES;
+
+--
+-- Table structure for table help_keyword
+--
+
+DROP TABLE IF EXISTS help_keyword;
+CREATE TABLE `help_keyword` (
+  `help_keyword_id` int(10) unsigned NOT NULL default '0',
+  `name` varchar(64) NOT NULL default '',
+  PRIMARY KEY  (`help_keyword_id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='help keywords';
+
+--
+-- Dumping data for table help_keyword
+--
+LOCK TABLES help_keyword WRITE;
+UNLOCK TABLES;
+
+--
+-- Table structure for table help_relation
+--
+
+DROP TABLE IF EXISTS help_relation;
+CREATE TABLE `help_relation` (
+  `help_topic_id` int(10) unsigned NOT NULL default '0',
+  `help_keyword_id` int(10) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`help_keyword_id`,`help_topic_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='keyword-topic relation';
+
+--
+-- Dumping data for table help_relation
+--
+LOCK TABLES help_relation WRITE;
+UNLOCK TABLES;
+
+--
+-- Table structure for table help_topic
+--
+
+DROP TABLE IF EXISTS help_topic;
+CREATE TABLE `help_topic` (
+  `help_topic_id` int(10) unsigned NOT NULL default '0',
+  `name` varchar(64) NOT NULL default '',
+  `help_category_id` smallint(5) unsigned NOT NULL default '0',
+  `description` text NOT NULL,
+  `example` text NOT NULL,
+  `url` varchar(128) NOT NULL default '',
+  PRIMARY KEY  (`help_topic_id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='help topics';
+
+--
+-- Dumping data for table help_topic
+--
+LOCK TABLES help_topic WRITE;
+UNLOCK TABLES;
+
+--
+-- Table structure for table host
+--
+
+DROP TABLE IF EXISTS host;
+CREATE TABLE `host` (
+  `Host` char(60) collate utf8_bin NOT NULL default '',
+  `Db` char(64) collate utf8_bin NOT NULL default '',
+  `Select_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Insert_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Update_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Delete_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Create_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Drop_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Grant_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `References_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Index_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Alter_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Create_tmp_table_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Lock_tables_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  PRIMARY KEY  (`Host`,`Db`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Host privileges;  Merged with database privileges';
+
+--
+-- Dumping data for table host
+--
+LOCK TABLES host WRITE;
+UNLOCK TABLES;
+
+--
+-- Table structure for table tables_priv
+--
+
+DROP TABLE IF EXISTS tables_priv;
+CREATE TABLE `tables_priv` (
+  `Host` char(60) collate utf8_bin NOT NULL default '',
+  `Db` char(64) collate utf8_bin NOT NULL default '',
+  `User` char(16) collate utf8_bin NOT NULL default '',
+  `Table_name` char(64) collate utf8_bin NOT NULL default '',
+  `Grantor` char(77) collate utf8_bin NOT NULL default '',
+  `Timestamp` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `Table_priv` set('Select','Insert','Update','Delete','Create','Drop','Grant','References','Index','Alter') character set utf8 NOT NULL default '',
+  `Column_priv` set('Select','Insert','Update','References') character set utf8 NOT NULL default '',
+  PRIMARY KEY  (`Host`,`Db`,`User`,`Table_name`),
+  KEY `Grantor` (`Grantor`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Table privileges';
+
+--
+-- Dumping data for table tables_priv
+--
+LOCK TABLES tables_priv WRITE;
+UNLOCK TABLES;
+
+--
+-- Table structure for table time_zone
+--
+
+DROP TABLE IF EXISTS time_zone;
+CREATE TABLE `time_zone` (
+  `Time_zone_id` int(10) unsigned NOT NULL auto_increment,
+  `Use_leap_seconds` enum('Y','N') NOT NULL default 'N',
+  PRIMARY KEY  (`Time_zone_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Time zones';
+
+--
+-- Dumping data for table time_zone
+--
+LOCK TABLES time_zone WRITE;
+UNLOCK TABLES;
+
+--
+-- Table structure for table time_zone_leap_second
+--
+
+DROP TABLE IF EXISTS time_zone_leap_second;
+CREATE TABLE `time_zone_leap_second` (
+  `Transition_time` bigint(20) NOT NULL default '0',
+  `Correction` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`Transition_time`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Leap seconds information for time zones';
+
+--
+-- Dumping data for table time_zone_leap_second
+--
+LOCK TABLES time_zone_leap_second WRITE;
+UNLOCK TABLES;
+
+--
+-- Table structure for table time_zone_name
+--
+
+DROP TABLE IF EXISTS time_zone_name;
+CREATE TABLE `time_zone_name` (
+  `Name` char(64) NOT NULL default '',
+  `Time_zone_id` int(10) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`Name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Time zone names';
+
+--
+-- Dumping data for table time_zone_name
+--
+LOCK TABLES time_zone_name WRITE;
+UNLOCK TABLES;
+
+--
+-- Table structure for table time_zone_transition
+--
+
+DROP TABLE IF EXISTS time_zone_transition;
+CREATE TABLE `time_zone_transition` (
+  `Time_zone_id` int(10) unsigned NOT NULL default '0',
+  `Transition_time` bigint(20) NOT NULL default '0',
+  `Transition_type_id` int(10) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`Time_zone_id`,`Transition_time`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Time zone transitions';
+
+--
+-- Dumping data for table time_zone_transition
+--
+LOCK TABLES time_zone_transition WRITE;
+UNLOCK TABLES;
+
+--
+-- Table structure for table time_zone_transition_type
+--
+
+DROP TABLE IF EXISTS time_zone_transition_type;
+CREATE TABLE `time_zone_transition_type` (
+  `Time_zone_id` int(10) unsigned NOT NULL default '0',
+  `Transition_type_id` int(10) unsigned NOT NULL default '0',
+  `Offset` int(11) NOT NULL default '0',
+  `Is_DST` tinyint(3) unsigned NOT NULL default '0',
+  `Abbreviation` char(8) NOT NULL default '',
+  PRIMARY KEY  (`Time_zone_id`,`Transition_type_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='Time zone transition types';
+
+--
+-- Dumping data for table time_zone_transition_type
+--
+LOCK TABLES time_zone_transition_type WRITE;
+UNLOCK TABLES;
+
+--
+-- Table structure for table user
+--
+
+DROP TABLE IF EXISTS user;
+CREATE TABLE `user` (
+  `Host` varchar(60) collate utf8_bin NOT NULL default '',
+  `User` varchar(16) collate utf8_bin NOT NULL default '',
+  `Password` varchar(41) collate utf8_bin NOT NULL default '',
+  `Select_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Insert_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Update_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Delete_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Create_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Drop_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Reload_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Shutdown_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Process_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `File_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Grant_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `References_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Index_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Alter_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Show_db_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Super_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Create_tmp_table_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Lock_tables_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Execute_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Repl_slave_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `Repl_client_priv` enum('N','Y') character set utf8 NOT NULL default 'N',
+  `ssl_type` enum('','ANY','X509','SPECIFIED') character set utf8 NOT NULL default '',
+  `ssl_cipher` blob NOT NULL,
+  `x509_issuer` blob NOT NULL,
+  `x509_subject` blob NOT NULL,
+  `max_questions` int(11) unsigned NOT NULL default '0',
+  `max_updates` int(11) unsigned NOT NULL default '0',
+  `max_connections` int(11) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`Host`,`User`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='Users and global privileges';
+
+--
+-- Dumping data for table user
+--
+LOCK TABLES user WRITE;
+INSERT INTO user (Host, User, Password, Select_priv, Insert_priv, Update_priv, Delete_priv, Create_priv, Drop_priv, Reload_priv, Shutdown_priv, Process_priv, File_priv, Grant_priv, References_priv, Index_priv, Alter_priv, Show_db_priv, Super_priv, Create_tmp_table_priv, Lock_tables_priv, Execute_priv, Repl_slave_priv, Repl_client_priv, ssl_type, ssl_cipher, x509_issuer, x509_subject, max_questions, max_updates, max_connections) VALUES ('d2cd1c452406', 'root', , 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', , , , , , , ),
+			('d2cd1c452406', , , 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', 'N', , , , , , , ),
+			('%', 'root', '*6BB4837EB74329105EE4568DDA7DC67ED2CA2AD9', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'N', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', 'Y', , , , , , , );
+UNLOCK TABLES;
+
+--
+-- Current Database: test
+--
+
+CREATE DATABASE `test` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE test;
+
+--
+-- Table structure for table user
+--
+
+DROP TABLE IF EXISTS user;
+CREATE TABLE `user` (
+  `int0` int(11) default NULL,
+  `tint` tinyint(4) default NULL,
+  `sint` smallint(6) default NULL,
+  `mint` mediumint(9) default NULL,
+  `bint` bigint(20) default NULL,
+  `bitt` tinyint(1) default NULL,
+  `fl` float default NULL,
+  `do` double default NULL,
+  `de` decimal(20,6) default NULL,
+  `ch` char(50) default NULL
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table user
+--
+LOCK TABLES user WRITE;
+INSERT INTO user (int0, tint, sint, mint, bint, bitt, fl, do, de, ch) VALUES (1, 2, 3, 4, 5, 5, 6.7, 7.8, '8.990000', 'AAA');
+UNLOCK TABLES;

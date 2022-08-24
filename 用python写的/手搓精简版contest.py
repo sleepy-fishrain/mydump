@@ -107,9 +107,20 @@ def dump_all_tables_in_db(db):#导出一个database中的所有表
 	init_dump(db)#初始化，主要是选中这个数据库并且输出建库命令
 	query("SHOW TABLES")
 	tables = cursor.fetchall()
+	tablee=[]
 	for table in tables:
 		print(table[0])
-		# query_commit( f"LOCK TABLES {table[0]} READ")
+		tablee.append(table[0])
+		#query_commit( f"LOCK TABLES {table[0]} READ")
+	#print(tablee)
+	tabl=""
+	for inn in tablee:
+		if inn==tablee[0]:
+			tabl=tabl+inn+" READ"
+		else:
+			tabl=tabl+","+inn+" READ"
+	#print(tabl)
+	query_commit( "LOCK TABLES "+tabl)
 	query_commit("FLUSH LOGS")
 	for table in tables:
 		numFields = getTableStructure(table[0], db)
